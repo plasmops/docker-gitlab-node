@@ -16,7 +16,7 @@ before_script:
 script:
   - docker-build $NAMESPACE/$PROJECT -f ./Dockerfile . || exit $?
 
-# deploy containers hub.docker.com
+# deploy containers to hub.docker.com
 after_deploy:
   - |
       # Skip if we are not in the push namespace list
