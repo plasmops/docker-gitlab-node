@@ -23,6 +23,9 @@ after_deploy:
       ( echo "$PUSH_NAMESPACES" | grep -qw "${TRAVIS_REPO_SLUG%/*}" ) || exit 0
       docker-push -r "^$NAMESPACE/$PROJECT:?.*"
 
+      # update microbadger
+      curl -XPOST "https://hooks.microbadger.com/images/${NAMESPACE}/${PROJECT}/${MICROBADGER_TOKEN}"
+
 deploy:
   - provider: script
     script: /bin/true
@@ -31,13 +34,3 @@ deploy:
 
 after_script:
   - docker images
-
-notifications:
-  webhooks:
-    urls:
-      - https://hooks.microbadger.com/images/plasmops/gitlab-node/${MICROBADGER_TOKEN}
-    on_success: always
-    on_failure: never
-    on_start:   never
-    on_cancel:  never
-    on_error:   never
