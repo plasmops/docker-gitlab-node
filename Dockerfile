@@ -27,12 +27,12 @@ RUN apk add --no-cache --update python3 && \
         ln -sf /usr/bin/python3-config /usr/bin/python-config && \
         ln -sf /usr/bin/pydoc3 /usr/bin/pydoc && \
         ln -sf /usr/bin/pip3 /usr/bin/pip && \
-    rm -r /root/.cache
+    ( rm -rf /root/.cache /root/.* 2>/dev/null || /bin/true )
 
 ## AWS tools
 RUN \
     pip install awscli && apk add --no-cache groff less mailcap && \
-    rm -r /root/.cache
+    ( rm -rf /root/.cache /root/.* 2>/dev/null || /bin/true )
 
 ## Install docker-ce
 #

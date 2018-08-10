@@ -23,7 +23,8 @@ fail() {
 gitlab() {
 
   ## Check project URL (we can't proceed if it's not given)
-  #  ex: CI_PROJECT_URL=https://mydomain.com/test.ci/token-test
+  #  ex: CI_PROJECT_URL="https://mydomain.com/test.ci/token-test"
+  #
   [ -z "$CI_PROJECT_URL" ] && fail "CI_PROJECT_URL is unset, doesn't seem we are running in GitLab!"
 
   GITLAB_DOMAIN="${CI_PROJECT_URL#*//}"
@@ -53,4 +54,4 @@ fi
 
 
 # execute command if given or start bash
-[ -n "$*" ] && exec $@ || exec /bin/bash
+[ -n "$*" ] && exec "$@" || exec /bin/bash
