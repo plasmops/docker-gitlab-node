@@ -1,6 +1,4 @@
-[![Image Version](https://images.microbadger.com/badges/version/plasmops/gitlab-node.svg)](https://microbadger.com/images/plasmops/gitlab-node)
-
-# docker-gitlab-node 
+# docker-gitlab-node [![Image Version](https://images.microbadger.com/badges/version/plasmops/gitlab-node.svg)](https://microbadger.com/images/plasmops/gitlab-node)
 
 Node.js container image for GitLab projects.
 
