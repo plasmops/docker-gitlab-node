@@ -32,7 +32,15 @@ gitlab() {
 
   ## Populate ~/.netrc to enable npm/yarn operation with other dependent projects hosted by this GitLab
   #
-  if [ -n "$CI_JOB_TOKEN" ]; then
+  if [ -n "$NETRC_LOGIN" -a -n "$NETRC_PASSWORD"]; then
+
+    # use NETRC_* provided variables
+    NETRC_MACHINE="${NETRC_MACHINE:-$GITLAB_DOMAIN}"
+    echo "machine ${NETRC_MACHINE} login ${NETRC_LOGIN} password ${NETRC_PASSWORD}" > ~/.netrc
+
+  elif [ -n "$CI_JOB_TOKEN" ]; then
+
+    # fallback to CI_JOB_TOKEN
     echo "machine ${GITLAB_DOMAIN} login gitlab-ci-token password ${CI_JOB_TOKEN}" > ~/.netrc
   fi
 }
