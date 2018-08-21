@@ -17,12 +17,11 @@ ENV DOCKER_SHASUM 1c2fa625496465c68b856db0ba850eaad7a16221ca153661ca718de4a22177
 #
 RUN apk add --no-cache --update \
         curl bash git tar jq \
-        # (we don't use build-base later on if it's required)
-        git binutils file make
+        git binutils file alpine-sdk
 
 ## Install python 2.7
 #
-RUN apk add --no-cache --update python && \
+RUN apk add --no-cache --update python python-dev && \
     python -m ensurepip && \
     rm -r /usr/lib/python*/ensurepip && \
     pip install --upgrade pip setuptools && \
