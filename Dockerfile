@@ -17,7 +17,7 @@ ENV DOCKER_SHASUM 1c2fa625496465c68b856db0ba850eaad7a16221ca153661ca718de4a22177
 #
 RUN apk add --no-cache --update \
         curl bash git tar jq \
-        git binutils file alpine-sdk
+        git binutils file build-base
 
 ## Install python3 and create links (python, pip), mind that it's python3 anyways!
 #
