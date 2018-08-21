@@ -46,7 +46,7 @@ deploy:
   - provider: script
     script: /bin/true
     on:
-      tag: true
+      tags: true
       condition: $TRAVIS_TAG =~ ^[0-9]
 
 after_script:
