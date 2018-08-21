@@ -11,7 +11,7 @@ env:
     - DFDIR=./python27 VARIANT=py27
 
 install:
-  - curl -sSL https://github.com/stackfeed/ci-scripts/raw/master/install.sh | sh -s -- -r debug
+  - curl -sSL https://github.com/stackfeed/ci-scripts/raw/master/install.sh | sh -s
 
 before_script:
   - export PATH=$PATH:~/ci-scripts
@@ -26,8 +26,6 @@ before_script:
       export VERSION_TAGS=$(echo $VERSIONS | sed 's/\b /","/g' | sed 's/^\|$/"/g')
 
 script:
-  - echo $DFDIR $VARIANT $NOTLATEST
-  - echo $VERSION_TAGS $FROM_TAG
   - |-
       docker-build $NOTLATEST -v $VARIANT $NAMESPACE/$PROJECT \
         --build-arg version_tags="$VERSION_TAGS" \
@@ -37,19 +35,19 @@ script:
 # deploy containers to hub.docker.com
 after_deploy:
   - |
-      /bin/true
-      # # Skip if we are not in the push namespace list
-      # ( echo "$PUSH_NAMESPACES" | grep -qw "${TRAVIS_REPO_SLUG%/*}" ) || exit 0
-      # docker-push -r "^$NAMESPACE/$PROJECT:?.*"
+      # Skip if we are not in the push namespace list
+      ( echo "$PUSH_NAMESPACES" | grep -qw "${TRAVIS_REPO_SLUG%/*}" ) || exit 0
+      docker-push -r "^$NAMESPACE/$PROJECT:?.*"
 
-      # # update microbadger
-      # curl -XPOST "https://hooks.microbadger.com/images/${NAMESPACE}/${PROJECT}/${MICROBADGER_TOKEN}"
+      # update microbadger
+      curl -XPOST "https://hooks.microbadger.com/images/${NAMESPACE}/${PROJECT}/${MICROBADGER_TOKEN}"
 
 deploy:
   - provider: script
     script: /bin/true
     on:
-      branch: master
+      tag: true
+      condition: $TRAVIS_TAG =~ ^[0-9]
 
 after_script:
   - docker images
