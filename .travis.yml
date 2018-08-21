@@ -6,15 +6,31 @@ env:
     - PROJECT=gitlab-node
     - NAMESPACE=plasmops
     - PUSH_NAMESPACES=plasmops
+  matrix:
+    - DFDIR=./ VARIANT=_
+    - DFDIR=./python27 VARIANT=py27
 
 install:
   - curl -sSL https://github.com/stackfeed/ci-scripts/raw/master/install.sh | sh -s
 
 before_script:
   - export PATH=$PATH:~/ci-scripts
+  - |-
+      # source .build-env and fetch latest container version
+      . ${DFDIR}/.build-env
+      LATEST=$(curl -sSL "https://raw.githubusercontent.com/${TRAVIS_REPO_SLUG}/master/${DFDIR#./}/.latest")
+
+  - |-
+      # set NOTLATEST and VERSIONS_LABEL
+      [ "$LATEST" = "$FROM_TAG" ] || export NOTLATEST="-n"
+      export VERSION_TAGS=$(echo $VERSIONS | sed 's/\b /","/g' | sed 's/^\|$/"/g')
 
 script:
-  - docker-build $NAMESPACE/$PROJECT -f ./Dockerfile . || exit $?
+  - |-
+      docker-build $NOTLATEST -v $VARIANT $NAMESPACE/$PROJECT \
+        --build-arg version_tags="$VERSION_TAGS" \
+        --build-arg tag=$FROM_TAG \
+          -f ${DFDIR}/Dockerfile ./ || exit $?
 
 # deploy containers to hub.docker.com
 after_deploy:
@@ -30,7 +46,8 @@ deploy:
   - provider: script
     script: /bin/true
     on:
-      branch: master
+      tag: true
+      condition: $TRAVIS_TAG =~ ^[0-9]
 
 after_script:
   - docker images
