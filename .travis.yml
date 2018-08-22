@@ -22,9 +22,9 @@ before_script:
 
 script:
   - |-
-      docker-build -L com.plasmops.version -f $FLAVOUR -l "$LATESTS" "$NAMESPACE/$PROJECT \
+      docker-build -L com.plasmops.version -f $FLAVOUR -l "$LATESTS" "$NAMESPACE/$PROJECT" \
         --build-arg version=$VERSION \
-        --build-arg tag=TAG \
+        --build-arg tag=$TAG \
           -f ${DFDIR}/Dockerfile ./ || exit $?
 
 # deploy containers to hub.docker.com
