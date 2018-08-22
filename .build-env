@@ -1,2 +1,0 @@
-FROM_TAG=10.9.0-alpine
-VERSIONS="10.9.0 10.9 10"

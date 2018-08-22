@@ -2,8 +2,8 @@ ARG tag
 FROM node:${tag}
 
 ARG version_tags
-LABEL vendor=PlasmOps \
-      version_tags="[${version_tags}]"
+LABEL com.plasmops.vendor=PlasmOps \
+      com.plasmops.versions="[${version_tags}]"
 
 
 ENV LANG=C.UTF-8
