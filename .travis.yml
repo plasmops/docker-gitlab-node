@@ -18,11 +18,11 @@ before_script:
   - |-
       # source .build-args and fetch latests versions list
       . ${DFDIR}/.build-args
-      LATEST=$(curl -sSL "https://raw.githubusercontent.com/${TRAVIS_REPO_SLUG}/master/.latests")
+      LATESTS=$(curl -sSL "https://raw.githubusercontent.com/${TRAVIS_REPO_SLUG}/master/.latests")
 
 script:
   - |-
-      docker-build -L com.plasmops.version -f $FLAVOUR $NAMESPACE/$PROJECT \
+      docker-build -L com.plasmops.version -f $FLAVOUR -l "$LATESTS" "$NAMESPACE/$PROJECT \
         --build-arg version=$VERSION \
         --build-arg tag=TAG \
           -f ${DFDIR}/Dockerfile ./ || exit $?
