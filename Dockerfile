@@ -1,5 +1,5 @@
 ARG tag
-FROM node:${tag}
+FROM node:${tag}-alpine
 
 ARG version
 LABEL com.plasmops.vendor=PlasmOps \
@@ -10,8 +10,8 @@ ENV LANG=C.UTF-8
 
 # Docker env variables
 ENV DOCKER_CHANNEL stable
-ENV DOCKER_VERSION 18.06.0-ce
-ENV DOCKER_SHASUM 1c2fa625496465c68b856db0ba850eaad7a16221ca153661ca718de4a2217705
+ENV DOCKER_VERSION 18.06.1-ce
+ENV DOCKER_SHASUM 83be159cf0657df9e1a1a4a127d181725a982714a983b2bdcc0621244df93687
 
 ## Install build software
 #
