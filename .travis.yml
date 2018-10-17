@@ -9,6 +9,7 @@ env:
   matrix:
     - DFDIR=./ FLAVOUR=_
     - DFDIR=./python27 FLAVOUR=py27
+    - DFDIR=./cli FLAVOUR=cli
 
 install:
   - curl -sSL https://github.com/stackfeed/ci-scripts/raw/master/install.sh | sh -s -- -r v0.2
