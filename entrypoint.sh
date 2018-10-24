@@ -60,6 +60,11 @@ if [ "$CI_SERVER_NAME" = "GitLab" ]; then
   gitlab
 fi
 
+# execute command via Tini
+if ( echo "yes y enabled" | grep -sqwi "${TINI_ENTRYPOINT}" ); then
+  exec /sbin/tini -- "$@"
 
 # execute command if given or start bash
-[ -n "$*" ] && exec "$@" || exec /bin/bash
+else
+  [ -n "$*" ] && exec "$@" || exec /bin/bash
+fi
