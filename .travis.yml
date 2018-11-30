@@ -10,6 +10,7 @@ env:
     - DFDIR=./ FLAVOUR=_
     - DFDIR=./python27 FLAVOUR=py27
     - DFDIR=./cli FLAVOUR=cli
+    - DFDIR=./jessie FLAVOUR=jessie
     - DFDIR=./jessie-chrome FLAVOUR=jessie-chrome
 
 install:

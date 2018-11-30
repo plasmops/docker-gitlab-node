@@ -5,6 +5,13 @@ ARG version
 LABEL com.plasmops.vendor=PlasmOps \
       com.plasmops.version=$version
 
+ENV LANG=C.UTF-8
+
+# Docker env variables
+ENV DOCKER_CHANNEL stable
+ENV DOCKER_VERSION 18.09.0
+ENV DOCKER_SHASUM 08795696e852328d66753963249f4396af2295a7fe2847b839f7102e25e47cb9
+
 ARG TINI_VERSION=v0.18.0
 ENV TINI_ENTRYPOINT yes
 
@@ -27,6 +34,11 @@ RUN \
     gpg --batch --verify tini-amd64.asc tini-amd64 && mv tini-amd64 /sbin/tini && chmod 755 /sbin/tini && \
     rm -rf /tmp/*
 
+## AWS tools
+RUN \
+    pip install awscli && apk add --no-cache groff less mailcap && \
+    ( rm -rf /root/.cache /root/.* 2>/dev/null || /bin/true )
+
 ## Install docker-ce
 #
 RUN \
@@ -43,12 +55,6 @@ RUN \
 ## We don't install custom modprobe, since haven't run into issues yet (see the link bellow)
 #  https://github.com/docker-library/docker/blob/master/18.06/modprobe.sh
 #
-
-## Install latest Chrome package
-#
-RUN curl -sSL https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
-    echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list && \
-    apt-get update && apt-get install -y google-chrome-stable
 
 COPY /entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
