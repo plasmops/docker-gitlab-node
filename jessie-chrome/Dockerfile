@@ -22,9 +22,9 @@ RUN \
               keyserver.ubuntu.com \
               hkp://keyserver.ubuntu.com:80 \
               pgp.mit.edu; do \
-        gpg --keyserver "$server" --recv-keys 595E85A6B1B4779EA4DAAEC70B588DFF0527A9B7 && break || echo "Trying new server..."; \
+        gpg --no-tty --keyserver "$server" --recv-keys 595E85A6B1B4779EA4DAAEC70B588DFF0527A9B7 && break || echo "Trying new server..."; \
     done && \
-    gpg --batch --verify tini-amd64.asc tini-amd64 && mv tini-amd64 /sbin/tini && chmod 755 /sbin/tini && \
+    gpg --batch --no-tty --verify tini-amd64.asc tini-amd64 && mv tini-amd64 /sbin/tini && chmod 755 /sbin/tini && \
     rm -rf /tmp/*
 
 ## Install latest Chrome package
